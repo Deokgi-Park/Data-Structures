@@ -39,6 +39,7 @@ int removeNode(LinkedList *ll, int index);
 int main()
 {
 	int c, i;
+	c = 999;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -57,10 +58,9 @@ int main()
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Split the linked list into two linked lists, frontList and backList:\n");
 	printf("0: Quit:\n");
-
 	while (c != 0)
 	{
-	    printf("Please input your choice(1/2/0): ");
+		printf("Please input your choice(1/2/0): ");
 		scanf("%d", &c);
 
 		switch (c)
@@ -102,7 +102,17 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	ListNode *cur = ll->head; 
+	int half = (ll->size/2);
+	for(int index = 0; index < ll->size; index++){
+		if(index <= half){
+			insertNode(resultFrontList, resultFrontList->size, cur->item);
+		}
+		else{
+			insertNode(resultBackList, resultBackList->size, cur->item);
+		} 
+		cur = cur->next;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

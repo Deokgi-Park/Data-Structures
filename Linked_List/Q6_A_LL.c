@@ -88,7 +88,62 @@ int main()
 
 int moveMaxToFront(ListNode **ptrHead)
 {
-    /* add your code here */
+    /* 1. 기본함수 사용하기 */
+	//ll의 포인터
+	//printf("%x \n", ptrHead);
+	//head 포인터가 가르키는 노드 주소
+	//printf("%x \n", *ptrHead);
+	//head의 포인터의 노드 주소의 값
+	//printf("%d \n", (**ptrHead).item);
+
+	//임시주석
+	// LinkedList *tmp = malloc(sizeof(LinkedList));
+	// tmp->head = *ptrHead;
+	// int max = 0;
+	// int index = 0;
+	// int position = 0;
+	// while(*ptrHead != NULL){
+	// 	if((*ptrHead)->item>max){
+	// 		max = (*ptrHead)->item;
+	// 		position = index;
+	// 	}
+	// 	index++;
+	// 	*ptrHead = (*ptrHead)->next;
+	// }
+	// tmp->size = index;
+	// removeNode(tmp, position);
+	// insertNode(tmp, 0, max);
+	// *ptrHead = tmp->head;
+	
+
+	/* 2. 포인터 수정하기 */
+	int max = 0;
+	int index = 0;
+	int position = 0;
+	ListNode *cur;
+	cur = (*ptrHead);
+	while(cur != NULL){
+		if(cur->item>max){
+			max = cur->item;
+			position = index;
+		}
+		index++;
+		cur = cur->next;
+	}
+
+	ListNode *first;
+	cur = (*ptrHead);
+	first = (*ptrHead);
+	index=0;
+	while(position-1>index){
+		cur = cur->next;
+		index++;
+	}
+	cur->next = cur->next->next;
+	ListNode *maxfirst = malloc(sizeof(ListNode));
+	maxfirst->item = max;
+	maxfirst->next = first;
+	*ptrHead = maxfirst;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
