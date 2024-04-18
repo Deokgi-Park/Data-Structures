@@ -59,7 +59,7 @@ int main()
 
 	while (c != 0)
 	{
-		printf("Please input your choice(1/2/0): ");
+		printf("Please input your choice(1/2/3/0): ");
 		scanf("%d", &c);
 
 		switch (c)
@@ -72,6 +72,12 @@ int main()
 		case 2:
 			printf("The resulting post-order traversal of the binary search tree is: ");
 			postOrderIterativeS2(root); // You need to code this function
+			printf("\n");
+			break;
+		case 3:
+			printf("remove node from the binary search tree is: ");
+			scanf("%d", &i);
+			printf("new root : %d",removeNodeFromTree(root, i)->item); // You need to code this function
 			printf("\n");
 			break;
 		case 0:
@@ -91,14 +97,73 @@ int main()
 
 void postOrderIterativeS2(BSTNode *root)
 {
-	 /* add your code here */
+	if (root == NULL)
+        return;
+
+    Stack *stack1 = malloc(sizeof(Stack));
+	stack1->top = NULL;
+    Stack *stack2 = malloc(sizeof(Stack));
+	stack2->top = NULL;
+    push(stack1, root);
+
+    while (!isEmpty(stack1)) {
+        BSTNode *node = pop(stack1);
+        push(stack2, node);
+
+        // 왼쪽 자식을 먼저 스택에 넣음
+        if (node->left != NULL)
+            push(stack1, node->left);
+        
+        // 오른쪽 자식을 다음에 스택에 넣음
+        if (node->right != NULL)
+            push(stack1, node->right);
+    }
+
+    while (!isEmpty(stack2)) {
+        printf("%d ", peek(stack2)->item); // 스택에서 팝한 순서의 반대로 출력
+        pop(stack2);
+    }
+	free(stack1);
+	free(stack2);
 }
 
 /* Given a binary search tree and a key, this function
    deletes the key and returns the new root. Make recursive function. */
 BSTNode* removeNodeFromTree(BSTNode *root, int value)
 {
-	/* add your code here */
+	if (root == NULL)
+        return NULL;
+
+    if (value < root->item)
+        root->left = removeNodeFromTree(root->left, value);
+
+    else if (value > root->item)
+        root->right = removeNodeFromTree(root->right, value);
+    else {
+        if (root->left == NULL && root->right == NULL) {
+            free(root);
+            return NULL;
+        }
+        else if (root->left == NULL) {
+            BSTNode *temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            BSTNode *temp = root->left;
+            free(root);
+            return temp;
+        }
+        else {
+
+            BSTNode *successor = root->right;
+            while (successor->left != NULL)
+                successor = successor->left;
+            root->item = successor->item;
+            root->right = removeNodeFromTree(root->right, successor->item);
+        }
+    }
+    return root;
 }
 ///////////////////////////////////////////////////////////////////////////////
 

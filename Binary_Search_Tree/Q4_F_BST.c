@@ -91,7 +91,30 @@ int main()
 
 void postOrderIterativeS1(BSTNode *root)
 {
-	 /* add your code here */
+	if (root == NULL)
+        return;
+
+    Stack *stack  = malloc(sizeof(Stack));
+	stack->top = NULL;
+    BSTNode *current = root;
+    BSTNode *lastVisited = NULL;
+
+    while (current != NULL || !isEmpty(stack)) {
+        if (current != NULL) {
+            push(stack, current);
+            current = current->left;
+        } else {
+            BSTNode *temp = peek(stack)->right;
+            if (temp == NULL || temp == lastVisited) {
+                temp = pop(stack);
+                printf("%d ", temp->item); // 노드를 출력
+                lastVisited = temp;
+            } else {
+                current = temp;
+            }
+        }
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -87,19 +87,43 @@ int main()
 
 void RecursiveReverse(ListNode **ptrHead)
 {
+	//---------초기 셋팅 start----------//
+	//1. 노드 순서를 바꾸기 위한 2개의 노드 포인터 생성
 	ListNode *first, *rest;
+	
+	//2. 현재 위치에서 뒤로 배치할 노드
+    //   현재 노드(head)로  설정
 	first=(*ptrHead);
+	
+	//3. 다음 위치에서 현재로 배치할 노드
+	//   현재 노드의 다음 노드(next)로 설정
 	rest=(*ptrHead)->next;
+	//---------초기 셋팅 end----------//
 
+
+
+	//---------재귀 분기 start----------//
+	//1. 재귀 탈출용 if문, 현재노드에서 다음노드가 없을 경우 재귀 종료
 	if(rest == NULL){
 		return;
 	}
-
+	//2. 다음 노드를 현재노드(head)로 주어서 재귀 호출
 	RecursiveReverse(&rest);
+	//---------재귀 분기 end----------/
+
+
+
+	//-----재귀 탈출 시 마지막 호출 함수 부터 해당 로직 수행 start------//
+    //1. 재귀 시 수행될 내용
+    //   현재 노드를 다음노드(next)의 다음노드(next->next)로 설정
 	first->next->next = first;
-	first->next = NULL;
-	*ptrHead = rest;
 	
+	//2. 현재 노드의 다음 간선를 제거
+	first->next = NULL;
+	
+	//3. 연결 리스트의 head에 현재 노드인 rest를 연결
+	*ptrHead = rest;
+	//-----재귀 탈출 시 마지막 호출 함수 부터 해당 로직 수행 end------/
 }
 
 //////////////////////////////////////////////////////////////////////////////////
